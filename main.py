@@ -21,7 +21,7 @@ tz_Rome = pytz.timezone('Europe/Rome')
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Add a job to the queue."""
     chat_id = update.effective_message.chat_id
-    context.job_queue.run_daily(get_global_day, time(hour=19, minute=50, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
+    context.job_queue.run_daily(get_global_day, time(hour=8, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
                       name=str(chat_id), chat_id=chat_id)
 
     text = "Bot avviato"
