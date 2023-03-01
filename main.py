@@ -91,5 +91,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # main()
-    print(get_next_int_day())
+    main()
