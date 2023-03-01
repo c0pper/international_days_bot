@@ -25,24 +25,32 @@ def check_job_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
         return True
 
 
-def get_next_int_day(context: ContextTypes.DEFAULT_TYPE) -> str:
-    next_int_day = list(context.job_queue.jobs())[0].next_t
-    next_int_day = next_int_day.strftime("%d/%m/%Y")
-    return next_int_day
+def get_next_int_day() -> str:
+    with open("db.json", "r", encoding="utf8") as db:
+        data = json.load(db)
+        giorni = data.keys()
+        print(giorni)
+        for g in giorni:
+            datetime_object = datetime.strptime(g, '%d %B')
+            day, month = datetime_object.day, datetime_object.month
+            year_month_day_obj = date(date.today().year, month, day)
+            if year_month_day_obj > date.today():
+                next_int_day = year_month_day_obj
+                break
+    return next_int_day.strftime("%d/%m/%Y")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Add a job to the queue."""
     chat_id = update.effective_message.chat_id
+    next_int_day = get_next_int_day()
     if check_job_exists(str(chat_id), context):
-        next_int_day = get_next_int_day(context)
         text = f"Prossima giornata mondiale: {next_int_day}"
         await update.effective_message.reply_text(text)
     else:
         context.job_queue.run_daily(get_global_day, time(hour=7, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
                                     name=str(chat_id), chat_id=chat_id)
 
-        next_int_day = get_next_int_day(context)
         text = f"Bot avviato. Prossima giornata mondiale: {next_int_day}"
         await update.effective_message.reply_text(text)
 
@@ -83,4 +91,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    print(get_next_int_day())
