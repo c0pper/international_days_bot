@@ -39,7 +39,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         text = f"Prossima giornata mondiale: {next_int_day}"
         await update.effective_message.reply_text(text)
     else:
-        context.job_queue.run_daily(get_global_day, time(hour=8, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
+        context.job_queue.run_daily(get_global_day, time(hour=9, minute=2   , tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
                                     name=str(chat_id), chat_id=chat_id)
 
         next_int_day = get_next_int_day(context)
@@ -54,6 +54,7 @@ async def get_global_day(context: ContextTypes.DEFAULT_TYPE) -> None:
     with open("db.json", "r", encoding="utf8") as db:
         data = json.load(db)
         giorni = data.keys()
+        print(giorni)
         for g in giorni:
             datetime_object = datetime.strptime(g, '%d %B')
             day, month = datetime_object.day, datetime_object.month
@@ -63,7 +64,7 @@ async def get_global_day(context: ContextTypes.DEFAULT_TYPE) -> None:
     for d in target_dates:
         if date.today() == d:
             datetime_object = datetime.fromisoformat(str(date.today()))
-            data_formattata = datetime_object.strftime('%d %B')
+            data_formattata = datetime_object.strftime('%#d %B')
 
             text = f"Felice {' e '.join(data[data_formattata])}  :)"
             await context.bot.send_message(job.chat_id, text=text)
