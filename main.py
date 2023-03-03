@@ -58,7 +58,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             datetime_object = datetime.fromisoformat(str(date.today()))
             data_formattata = datetime_object.strftime('%#d %B')
             print("data formattata", data_formattata)
-            print(data[data_formattata])
+            # print(data[data_formattata])
 
 
     chat_id = update.effective_message.chat_id
