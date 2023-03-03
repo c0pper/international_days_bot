@@ -48,7 +48,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         text = f"Prossima giornata mondiale: {next_int_day}"
         await update.effective_message.reply_text(text)
     else:
-        context.job_queue.run_daily(get_global_day, time(hour=8, minute=43, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
+        context.job_queue.run_daily(get_global_day, time(hour=8, minute=52, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
                                     name=str(chat_id), chat_id=chat_id)
 
         text = f"Bot avviato. Prossima giornata mondiale: {next_int_day}"
