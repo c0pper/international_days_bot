@@ -64,7 +64,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_message.chat_id
     next_int_day = get_next_int_day()
     if check_job_exists(str(chat_id), context):
-        text = f"Prossima giornata mondiale: {next_int_day}"
+        text = f"Prossima giornata mondiale: {next_int_day} {data_formattata}"
         await update.effective_message.reply_text(text)
     else:
         context.job_queue.run_daily(get_global_day, time(hour=8, minute=52, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
