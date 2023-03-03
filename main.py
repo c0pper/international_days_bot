@@ -56,10 +56,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     for d in target_dates:
         if date.today() == d:
             datetime_object = datetime.fromisoformat(str(date.today()))
-            if os.name == "nt":
-                data_formattata = datetime_object.strftime('%#d %B')
-            else:
-                data_formattata = datetime_object.strftime('%-d %B')
+            # if os.name == "nt":
+            #     data_formattata = datetime_object.strftime('%#d %B')
+            # else:
+            #     data_formattata = datetime_object.strftime('%-d %B')
+            data_formattata = datetime_object.strftime('%d %B')
             print("data formattata", data_formattata)
             # print(data[data_formattata])
 
