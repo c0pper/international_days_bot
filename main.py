@@ -56,11 +56,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     for d in target_dates:
         if date.today() == d:
             datetime_object = datetime.fromisoformat(str(date.today()))
-            # if os.name == "nt":
-            #     data_formattata = datetime_object.strftime('%#d %B')
-            # else:
-            #     data_formattata = datetime_object.strftime('%-d %B')
-            data_formattata = datetime_object.strftime('%d %B')
+            if os.name == "nt":
+                data_formattata = datetime_object.strftime('%#d %B')
+            else:
+                data_formattata = datetime_object.strftime('%-d %B')
             print("data formattata", data_formattata)
             # print(data[data_formattata])
 
@@ -68,7 +67,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_message.chat_id
     next_int_day = get_next_int_day()
     if check_job_exists(str(chat_id), context):
-        text = f"Prossima giornata mondiale: {next_int_day} data :{data_formattata, datetime_object}"
+        text = f"Prossima giornata mondiale: {next_int_day} data :{data_formattata}"
         await update.effective_message.reply_text(text)
     else:
         context.job_queue.run_daily(get_global_day, time(hour=8, minute=52, tzinfo=tz_Rome), days=(0, 1, 2, 3, 4, 5, 6),
