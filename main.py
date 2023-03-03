@@ -29,7 +29,6 @@ def get_next_int_day() -> str:
     with open("db.json", "r", encoding="utf8") as db:
         data = json.load(db)
         giorni = data.keys()
-        print(giorni)
         for g in giorni:
             datetime_object = datetime.strptime(g, '%d %B')
             day, month = datetime_object.day, datetime_object.month
@@ -53,12 +52,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             target_date = date(date.today().year, month, day)
             target_dates.append(target_date)
 
+    print("today", date.today(), "\n")
     for d in target_dates:
-        print(d, date.today(), "\n")
         if date.today() == d:
             datetime_object = datetime.fromisoformat(str(date.today()))
             data_formattata = datetime_object.strftime('%#d %B')
-            print(data_formattata)
+            print("data formattata", data_formattata)
+            print(data[data_formattata])
 
 
     chat_id = update.effective_message.chat_id
