@@ -28,7 +28,9 @@ def check_job_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
 def get_next_int_day() -> str:
     with open("db.json", "r", encoding="utf8") as db:
         data = json.load(db)
-        giorni = data.keys()
+        giorni = sorted(data.keys(), key=lambda g: datetime.strptime(g, '%d %B'))
+        
+        next_int_day = None
         for g in giorni:
             datetime_object = datetime.strptime(g, '%d %B')
             day, month = datetime_object.day, datetime_object.month
@@ -36,6 +38,14 @@ def get_next_int_day() -> str:
             if year_month_day_obj > date.today():
                 next_int_day = year_month_day_obj
                 break
+        
+        # If no date is found, wrap around to the start of the next year
+        if next_int_day is None:
+            first_day = giorni[0]
+            datetime_object = datetime.strptime(first_day, '%d %B')
+            day, month = datetime_object.day, datetime_object.month
+            next_int_day = date(date.today().year + 1, month, day)
+        
     return next_int_day.strftime("%d/%m/%Y")
 
 

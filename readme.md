@@ -1,0 +1,1 @@
+ docker run -d --network=host --restart unless-stopped --env-file .env --name giornate-mondiali-bot giornate-mondiali-bot
